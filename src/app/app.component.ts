@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssetService } from './asset.service';
 import { TreeLogicService } from './tree-logic.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import CurrentScenarios from 'assets/current.json';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,7 +17,10 @@ export class AppComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
   ngOnInit() {
-    this.assetService.getScenariosJSON().subscribe(scenarios => this.scenarios = scenarios);
+    this.assetService.getScenariosJSON().subscribe(scenarios => {
+      this.scenarios = scenarios;
+      this.assetService.getDecodedScenarios(this.scenarios.nodes, JSON.stringify(CurrentScenarios));      
+    });
   }
   public handleScenarioSelect(scenario) {
     if (scenario) {
